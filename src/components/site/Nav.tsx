@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import logo from "@/assets/motive-axis-logo.png";
 
 const links = [
@@ -47,13 +48,14 @@ export default function Nav() {
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
+        <Link
+          to="/audit"
+          search={{ source: "book" }}
           className="hidden md:inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:brightness-110 transition red-glow"
         >
           Book Call
           <span aria-hidden>→</span>
-        </a>
+        </Link>
         <button
           aria-label="Menu"
           className="md:hidden p-2 text-foreground"
@@ -74,9 +76,9 @@ export default function Nav() {
                 {l.label}
               </a>
             ))}
-            <a href="#contact" onClick={() => setOpen(false)} className="rounded-md bg-primary px-4 py-2 text-center font-medium text-primary-foreground">
+            <Link to="/audit" search={{ source: "book" }} onClick={() => setOpen(false)} className="rounded-md bg-primary px-4 py-2 text-center font-medium text-primary-foreground">
               Book Call
-            </a>
+            </Link>
           </div>
         </div>
       )}
