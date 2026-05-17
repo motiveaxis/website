@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import Nav from "@/components/site/Nav";
 import WorkflowGraphic from "@/components/site/WorkflowGraphic";
 import { Reveal } from "@/components/site/Reveal";
@@ -617,6 +619,9 @@ function About() {
 
 /* ------------------------------- FINAL CTA -------------------------------- */
 function FinalCTA() {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   return (
     <section id="contact" className="relative py-28 md:py-40 border-t border-border overflow-hidden">
       <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-radial-red)" }} />
@@ -644,32 +649,34 @@ function FinalCTA() {
             className="rounded-2xl border border-border bg-card/80 backdrop-blur p-6 md:p-8 space-y-4"
             onSubmit={(e) => {
               e.preventDefault();
-              alert("Thanks — we'll reach out within 24 hours.");
+              navigate({
+                to: "/audit",
+                search: { source: "audit", name, email },
+              });
             }}
           >
             <div className="grid sm:grid-cols-2 gap-4">
-              <Field label="Name" name="name" placeholder="Your name" />
-              <Field label="Business email" name="email" type="email" placeholder="you@company.com" />
-            </div>
-            <div>
-              <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Current CRM stack</label>
-              <select className="w-full rounded-md bg-surface border border-border px-3 py-2.5 text-sm focus:border-primary focus:outline-none">
-                <option>Salesforce</option>
-                <option>GoHighLevel</option>
-                <option>HubSpot</option>
-                <option>Zoho</option>
-                <option>Other / None yet</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-1.5">
-                Most frustrating manual task
-              </label>
-              <textarea
-                rows={4}
-                placeholder="What's eating your team's time right now?"
-                className="w-full rounded-md bg-surface border border-border px-3 py-2.5 text-sm focus:border-primary focus:outline-none resize-none"
-              />
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Name</label>
+                <input
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  className="w-full rounded-md bg-surface border border-border px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Business email</label>
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@company.com"
+                  className="w-full rounded-md bg-surface border border-border px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
+                />
+              </div>
             </div>
             <button
               type="submit"
