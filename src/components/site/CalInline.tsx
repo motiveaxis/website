@@ -16,21 +16,20 @@ export default function CalInline({ calLink, name, email }: Props) {
     el.innerHTML = "";
 
     const cal = getCalApi();
+    const darkVars = {
+      "cal-brand": "#ff1a1a",
+      "cal-bg": "#000000",
+      "cal-bg-muted": "#0a0a0a",
+      "cal-bg-emphasis": "#141414",
+      "cal-border": "rgba(255,255,255,0.08)",
+      "cal-border-subtle": "rgba(255,255,255,0.06)",
+      "cal-text": "#fafafa",
+      "cal-text-emphasis": "#ffffff",
+    };
     cal("ui", {
       theme: "dark",
       hideEventTypeDetails: false,
-      cssVarsPerTheme: {
-        dark: {
-          "cal-brand": "#ff1a1a",
-          "cal-bg": "#000000",
-          "cal-bg-muted": "#0a0a0a",
-          "cal-bg-emphasis": "#141414",
-          "cal-border": "rgba(255,255,255,0.08)",
-          "cal-border-subtle": "rgba(255,255,255,0.06)",
-          "cal-text": "#fafafa",
-          "cal-text-emphasis": "#ffffff",
-        },
-      },
+      cssVarsPerTheme: { dark: darkVars, light: darkVars },
       layout: "month_view",
     });
 
