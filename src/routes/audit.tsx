@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import Nav from "@/components/site/Nav";
 import { Reveal } from "@/components/site/Reveal";
+import CalInline from "@/components/site/CalInline";
 
 type Search = {
   source?: "audit" | "book";
@@ -37,6 +38,7 @@ function AuditPage() {
   const [crms, setCrms] = useState<string[]>([]);
   const [discussInCall, setDiscussInCall] = useState(search.source === "book");
   const [task, setTask] = useState("");
+  const [calLink, setCalLink] = useState("motiveaxis/audit");
 
   useEffect(() => {
     if (search.source === "book") setDiscussInCall(true);
@@ -48,6 +50,7 @@ function AuditPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (discussInCall) {
+      setCalLink("motiveaxis/discovery-call");
       setStage("schedule");
     } else {
       setStage("success");
@@ -227,13 +230,8 @@ function AuditPage() {
                   30-minute strategy call with our team.
                 </p>
               </div>
-              <div className="rounded-2xl border border-border bg-card/80 backdrop-blur overflow-hidden">
-                <iframe
-                  src="https://calendly.com/motiveaxis/30min"
-                  title="Schedule a call"
-                  className="w-full"
-                  style={{ height: "720px", border: 0 }}
-                />
+              <div className="rounded-2xl border border-border bg-card/80 backdrop-blur overflow-hidden p-2 md:p-4">
+                <CalInline calLink={calLink} name={name} email={email} />
               </div>
               <div className="mt-6 text-center">
                 <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
