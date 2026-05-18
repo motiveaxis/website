@@ -43,6 +43,8 @@ export default function CalInline({ calLink, name, email }: Props) {
       const config: Record<string, string> = { theme: "dark" };
       if (name) config.name = name;
       if (email) config.email = email;
+      // Force 12-hour time format; timezone is auto-detected by Cal from the browser.
+      config.timeFormat = "12";
 
       cal("inline", {
         elementOrSelector: el,
@@ -84,11 +86,24 @@ export default function CalInline({ calLink, name, email }: Props) {
   const fallbackUrl = `https://cal.com/${calLink}`;
 
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
+    <div
+      className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black"
+      role="region"
+      aria-label="Scheduling calendar"
+      aria-busy={status === "loading"}
+      aria-live="polite"
+    >
       {status === "loading" && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-black/80 backdrop-blur-sm">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#ff1a1a]" />
+        <div
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-black/80 backdrop-blur-sm"
+          role="status"
+        >
+          <div
+            className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#ff1a1a]"
+            aria-hidden="true"
+          />
           <p className="text-sm text-white/60">Loading scheduler…</p>
+          <span className="sr-only">Loading scheduling calendar, please wait</span>
         </div>
       )}
       {status === "error" && (
