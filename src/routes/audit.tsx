@@ -40,6 +40,17 @@ function AuditPage() {
   const [task, setTask] = useState("");
   const [calLink, setCalLink] = useState("motiveaxis/audit");
 
+  const minBookingDate = (() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 2);
+    return d.toISOString().slice(0, 10);
+  })();
+  const minBookingHuman = new Date(minBookingDate).toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+
   useEffect(() => {
     if (search.source === "book") setDiscussInCall(true);
   }, [search.source]);
@@ -203,14 +214,24 @@ function AuditPage() {
                   We'll send a tailored report to <span className="text-foreground">{email}</span> within{" "}
                   <span className="text-foreground">2 working days</span>. Want to talk it through sooner?
                 </p>
-                <button
-                  onClick={() => setStage("schedule")}
-                  className="mt-8 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:brightness-110 transition red-glow"
-                >
-                  Book a call
-                  <span>→</span>
-                </button>
-                <div className="mt-6">
+              </div>
+
+              <div className="mt-10">
+                <div className="text-center mb-6">
+                  <div className="text-xs font-mono uppercase tracking-[0.2em] text-primary">
+                    Book your follow-up
+                  </div>
+                  <h3 className="mt-3 text-2xl md:text-3xl font-display font-semibold tracking-tight">
+                    Pick a slot to review the report together.
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Earliest available: <span className="text-foreground">{minBookingHuman}</span> — we need 2 working days to prepare your audit.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-border bg-card/80 backdrop-blur overflow-hidden p-2 md:p-4">
+                  <CalInline calLink="motiveaxis/audit" name={name} email={email} date={minBookingDate} />
+                </div>
+                <div className="mt-6 text-center">
                   <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
                     ← Back to home
                   </Link>

@@ -5,9 +5,10 @@ type Props = {
   calLink: string;
   name?: string;
   email?: string;
+  date?: string; // YYYY-MM-DD — opens booker on/after this date
 };
 
-export default function CalInline({ calLink, name, email }: Props) {
+export default function CalInline({ calLink, name, email, date }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -40,9 +41,16 @@ export default function CalInline({ calLink, name, email }: Props) {
         layout: "month_view",
       });
 
-      const config: Record<string, string> = { theme: "dark" };
+      const config: Record<string, string> = {
+        theme: "dark",
+        timeFormat: "12",
+      };
       if (name) config.name = name;
       if (email) config.email = email;
+      if (date) {
+        config.date = date;
+        config.month = date.slice(0, 7);
+      }
 
       cal("inline", {
         elementOrSelector: el,
@@ -79,16 +87,33 @@ export default function CalInline({ calLink, name, email }: Props) {
       if (failTimer) clearTimeout(failTimer);
       if (el) el.innerHTML = "";
     };
-  }, [calLink, name, email]);
+  }, [calLink, name, email, date]);
 
   const fallbackUrl = `https://cal.com/${calLink}`;
 
   return (
     <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
       {status === "loading" && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-black/80 backdrop-blur-sm">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#ff1a1a]" />
-          <p className="text-sm text-white/60">Loading scheduler…</p>
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black">
+          <div className="w-full max-w-3xl px-6 py-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="h-5 w-40 rounded bg-white/[0.06] animate-pulse" />
+              <div className="h-5 w-24 rounded bg-white/[0.06] animate-pulse" />
+            </div>
+            <div className="grid grid-cols-7 gap-2">
+              {Array.from({ length: 35 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="aspect-square rounded-md bg-white/[0.04] animate-pulse"
+                  style={{ animationDelay: `${(i % 7) * 60}ms` }}
+                />
+              ))}
+            </div>
+            <div className="mt-8 flex items-center justify-center gap-2 text-xs text-white/40">
+              <div className="h-3 w-3 animate-spin rounded-full border border-white/15 border-t-[#ff1a1a]" />
+              <span>Loading scheduler & detecting your timezone…</span>
+            </div>
+          </div>
         </div>
       )}
       {status === "error" && (
