@@ -24,19 +24,16 @@ export default function CalInline({ calLink, name, email, date }: Props) {
 
     try {
       const cal = getCalApi();
+      // Keep overrides minimal so Cal's native controls (timezone dropdown,
+      // location chips, etc.) stay readable. Only override brand color.
       const darkVars = {
         "cal-brand": "#ff1a1a",
-        "cal-bg": "#000000",
-        "cal-bg-muted": "#0a0a0a",
-        "cal-bg-emphasis": "#141414",
-        "cal-border": "rgba(255,255,255,0.08)",
-        "cal-border-subtle": "rgba(255,255,255,0.06)",
-        "cal-text": "#fafafa",
-        "cal-text-emphasis": "#ffffff",
       };
       cal("ui", {
         theme: "dark",
-        hideEventTypeDetails: true,
+        // Show event type details so the Google Meet location is visible on
+        // the booker and confirmation step.
+        hideEventTypeDetails: false,
         cssVarsPerTheme: { dark: darkVars, light: darkVars },
         layout: "month_view",
       });
