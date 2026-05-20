@@ -40,7 +40,10 @@ export default function CalInline({ calLink, name, email }: Props) {
         layout: "month_view",
       });
 
-      const config: Record<string, string> = { theme: "dark" };
+      const config: Record<string, string> = {
+        theme: "dark",
+        timeFormat: "12",
+      };
       if (name) config.name = name;
       if (email) config.email = email;
 
