@@ -60,7 +60,7 @@ function AuditPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (discussInCall) {
-      setCalLink("motiveaxis/discovery-call");
+      setCalLink("motiveaxis/strategy-call");
       setStage("schedule");
     } else {
       setStage("success");
