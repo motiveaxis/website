@@ -5,9 +5,10 @@ type Props = {
   calLink: string;
   name?: string;
   email?: string;
+  date?: string; // YYYY-MM-DD — opens booker on/after this date
 };
 
-export default function CalInline({ calLink, name, email }: Props) {
+export default function CalInline({ calLink, name, email, date }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -46,6 +47,10 @@ export default function CalInline({ calLink, name, email }: Props) {
       };
       if (name) config.name = name;
       if (email) config.email = email;
+      if (date) {
+        config.date = date;
+        config.month = date.slice(0, 7);
+      }
 
       cal("inline", {
         elementOrSelector: el,
