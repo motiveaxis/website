@@ -9,23 +9,7 @@ type Props = {
 
 export default function CalInline({ calLink, name, email }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [timezone, setTimezone] = useState<string>("");
-
-  useEffect(() => {
-    try {
-      setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone || "");
-    } catch {
-      setTimezone("");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (status === "ready" && wrapperRef.current) {
-      wrapperRef.current.focus({ preventScroll: true });
-    }
-  }, [status]);
 
   useEffect(() => {
     const el = ref.current;
@@ -53,14 +37,12 @@ export default function CalInline({ calLink, name, email }: Props) {
         theme: "dark",
         hideEventTypeDetails: true,
         cssVarsPerTheme: { dark: darkVars, light: darkVars },
-        layout: "column_view",
+        layout: "month_view",
       });
 
-      const config: Record<string, string> = { theme: "dark", layout: "column_view" };
+      const config: Record<string, string> = { theme: "dark" };
       if (name) config.name = name;
       if (email) config.email = email;
-      // Force 12-hour time format; timezone is auto-detected by Cal from the browser.
-      config.timeFormat = "12";
 
       cal("inline", {
         elementOrSelector: el,
@@ -100,54 +82,17 @@ export default function CalInline({ calLink, name, email }: Props) {
   }, [calLink, name, email]);
 
   const fallbackUrl = `https://cal.com/${calLink}`;
-  const tzLabel = timezone ? timezone.replace(/_/g, " ") : "";
 
   return (
-    <div className="w-full">
-      {tzLabel && (
-        <div className="mb-3 flex items-center justify-between gap-3 text-xs text-white/60">
-          <span className="inline-flex items-center gap-2">
-            <span
-              className="inline-block h-1.5 w-1.5 rounded-full bg-[#ff1a1a]"
-              aria-hidden="true"
-            />
-            Detected timezone:{" "}
-            <span className="font-medium text-white/85">{tzLabel}</span>
-          </span>
-        </div>
-      )}
-      <div
-        ref={wrapperRef}
-        tabIndex={-1}
-        className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black outline-none focus-visible:ring-2 focus-visible:ring-[#ff1a1a]/50"
-        role="region"
-        aria-label={
-          tzLabel
-            ? `Scheduling calendar, times shown in ${tzLabel}`
-            : "Scheduling calendar"
-        }
-        aria-busy={status === "loading"}
-      >
+    <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
       {status === "loading" && (
-        <div
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-black/80 backdrop-blur-sm"
-          role="status"
-          aria-live="polite"
-        >
-          <div
-            className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#ff1a1a]"
-            aria-hidden="true"
-          />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-black/80 backdrop-blur-sm">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#ff1a1a]" />
           <p className="text-sm text-white/60">Loading scheduler…</p>
-          <span className="sr-only">Loading scheduling calendar, please wait</span>
         </div>
       )}
       {status === "error" && (
-        <div
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-black/90 p-6 text-center"
-          role="alert"
-          aria-live="assertive"
-        >
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-black/90 p-6 text-center">
           <p className="text-sm text-white/70">
             The scheduler couldn’t load. You can open it in a new tab.
           </p>
@@ -161,8 +106,7 @@ export default function CalInline({ calLink, name, email }: Props) {
           </a>
         </div>
       )}
-        <div ref={ref} className="min-h-[720px] w-full" style={{ colorScheme: "dark" }} />
-      </div>
+      <div ref={ref} className="min-h-[720px] w-full" style={{ colorScheme: "dark" }} />
     </div>
   );
 }
