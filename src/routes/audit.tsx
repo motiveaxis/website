@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import Nav from "@/components/site/Nav";
-import { Reveal } from "@/components/site/Reveal";
 import CalInline from "@/components/site/CalInline";
 
 type Search = {
@@ -77,7 +76,7 @@ function AuditPage() {
       <section className="relative pt-32 pb-24 md:pt-40">
         <div className="mx-auto max-w-3xl px-6">
           {stage === "form" && (
-            <Reveal>
+            <div>
               <div className="text-center mb-10">
                 <div className="text-xs font-mono uppercase tracking-[0.2em] text-primary">
                   {search.source === "book" ? "Book a strategy call" : "Workflow audit"}
@@ -198,11 +197,11 @@ function AuditPage() {
                   ← Back to home
                 </Link>
               </div>
-            </Reveal>
+            </div>
           )}
 
           {stage === "success" && (
-            <Reveal>
+            <div>
               <div className="rounded-2xl border border-border bg-card/80 backdrop-blur p-10 md:p-14 text-center">
                 <div className="mx-auto h-14 w-14 rounded-full border border-primary/40 bg-primary/10 flex items-center justify-center text-primary text-2xl">
                   ✓
@@ -237,11 +236,11 @@ function AuditPage() {
                   </Link>
                 </div>
               </div>
-            </Reveal>
+            </div>
           )}
 
           {stage === "schedule" && (
-            <Reveal>
+            <div>
               <div className="text-center mb-6">
                 <div className="text-xs font-mono uppercase tracking-[0.2em] text-primary">Schedule</div>
                 <h2 className="mt-3 text-3xl md:text-4xl font-display font-semibold tracking-tight">
@@ -259,7 +258,7 @@ function AuditPage() {
                   ← Back to home
                 </Link>
               </div>
-            </Reveal>
+            </div>
           )}
         </div>
       </section>
