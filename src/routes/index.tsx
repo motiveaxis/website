@@ -48,7 +48,7 @@ function Hero() {
             </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[0.95] tracking-tight text-balance">
+            <h1 className="mt-6 text-5xl sm:text-6xl font-semibold leading-[0.95] tracking-tight text-balance lg:text-6xl">
               Automate the work.
               <br />
               <span className="text-gradient-red">Scale the business.</span>
@@ -169,7 +169,7 @@ function Services() {
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="What we automate"
-          title="Six categories. One operating system for your business."
+          title="Automation systems that you'll inherently adapt."
           sub="From CRM plumbing to AI-driven reporting, every layer of your operation, connected."
         />
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
