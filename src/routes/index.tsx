@@ -48,8 +48,8 @@ function Hero() {
             </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <h1 className="mt-6 text-5xl sm:text-6xl font-semibold leading-[0.95] tracking-tight text-balance lg:text-7xl">
-              Without hiring big teams
+            <h1 className="mt-6 text-5xl sm:text-6xl font-semibold leading-[0.95] tracking-tight text-balance lg:text-6xl">
+              Without hiring big teams,
               <br />
               <span className="text-gradient-red">Automate Your Business</span>
             </h1>
