@@ -169,7 +169,7 @@ function Services() {
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="What we automate"
-          title="Six categories. One operating system for your business."
+          title="Six categories. One Axis for your business."
           sub="From CRM plumbing to AI-driven reporting, every layer of your operation, connected."
         />
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden">
