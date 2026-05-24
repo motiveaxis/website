@@ -49,7 +49,9 @@ function Hero() {
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="mt-6 text-5xl sm:text-6xl font-semibold leading-[0.95] tracking-tight text-balance lg:text-6xl">
-              One Axis
+              Automate the work.
+              <br />
+              <span className="text-gradient-red">Scale the business.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
