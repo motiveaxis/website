@@ -56,7 +56,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Saved weekly on avg.
+              We build automation systems based on your existing Internal Manual Workflows that eliminate repetitive work, connect your operations, and scale your business faster. If you do it manually, we automate it.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
