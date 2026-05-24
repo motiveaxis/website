@@ -56,13 +56,13 @@ function Hero() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              We build automation systems based on your existing Internal Manual Workflows that eliminate repetitive work, connect your operations, and scale your business faster. If you do it manually, we automate it.
+              We build automation systems based on your existing Internal Manual Workflows that eliminate repetitive work, connect your operations, and scale your business faster.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-9 flex flex-wrap gap-3">
               <a href="#contact" className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:brightness-110 transition red-glow">
-                Book Strategy Call
+                Audit Your Manual Workflows
                 <span className="transition-transform group-hover:translate-x-1">→</span>
               </a>
               <a href="#work" className="inline-flex items-center gap-2 rounded-md border border-border bg-surface/40 px-5 py-3 text-sm font-medium text-foreground hover:border-primary/60 hover:text-primary transition">
@@ -98,11 +98,10 @@ function Hero() {
 
 /* ------------------------------- VALUE PROP ------------------------------- */
 const valueLines = [
-  "Your team shouldn't waste time copy-pasting data.",
-  "Every repetitive task is lost revenue.",
-  "We replace chaos with systems.",
-  "From lead to fulfillment. Automated.",
-  "Manual work doesn't scale.",
+  "Your team shouldn't waste time on repetetive task= (lost revenue).",
+  "We replace human errors with reliable systems.",
+  "Automated systems that saves more than 15hrs of work on a weekly basis for the teams.",
+  "With automation comes scale.",
 ];
 
 function ValueProp() {
