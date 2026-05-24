@@ -73,8 +73,8 @@ function Hero() {
           <Reveal delay={0.22}>
             <div className="mt-10 grid grid-cols-3 max-w-md gap-6 text-sm">
               {[
-                ["70%", "Faster onboarding"],
-                ["9", "Specialists on staff"],
+                ["70%", "Faster scaling"],
+                ["15hrs +", "Saved weekly on avg."],
                 ["24/7", "Pipelines running"],
               ].map(([k, v]) => (
                 <div key={v}>
