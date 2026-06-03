@@ -20,11 +20,8 @@ function Index() {
       <Services />
       <Process />
       <Ecosystem />
-      <Stack />
       <CaseStudies />
       <Pricing />
-      <Trust />
-      <About />
       <FinalCTA />
       <Footer />
     </div>
