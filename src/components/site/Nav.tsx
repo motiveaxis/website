@@ -3,12 +3,13 @@ import { Link } from "@tanstack/react-router";
 import logo from "@/assets/motive-axis-logo.png";
 
 const links = [
-  { href: "#ecosystem", label: "Ecosystem" },
-  { href: "#services", label: "What We Automate" },
-  { href: "#process", label: "Process" },
-  { href: "#stack", label: "Stack" },
-  { href: "#work", label: "Case Studies" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "/#services", label: "What We Automate", type: "hash" as const },
+  { href: "/#process", label: "Process", type: "hash" as const },
+  { to: "/stack", label: "Stack", type: "route" as const },
+  { href: "/#work", label: "Case Studies", type: "hash" as const },
+  { href: "/#pricing", label: "Pricing", type: "hash" as const },
+  { to: "/trust", label: "Trust", type: "route" as const },
+  { to: "/about", label: "About", type: "route" as const },
 ];
 
 export default function Nav() {
@@ -38,15 +39,26 @@ export default function Nav() {
           </span>
         </a>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="hover:text-foreground transition-colors relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-primary hover:after:w-full after:transition-all"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.type === "route" ? (
+              <Link
+                key={l.label}
+                to={l.to}
+                className="hover:text-foreground transition-colors relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-primary hover:after:w-full after:transition-all"
+                activeProps={{ className: "text-foreground" }}
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.label}
+                href={l.href}
+                className="hover:text-foreground transition-colors relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-primary hover:after:w-full after:transition-all"
+              >
+                {l.label}
+              </a>
+            ),
+          )}
         </nav>
         <Link
           to="/audit"
@@ -71,11 +83,17 @@ export default function Nav() {
       {open && (
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
           <div className="px-6 py-4 flex flex-col gap-3 text-sm">
-            {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground">
-                {l.label}
-              </a>
-            ))}
+            {links.map((l) =>
+              l.type === "route" ? (
+                <Link key={l.label} to={l.to} onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground">
+                  {l.label}
+                </a>
+              ),
+            )}
             <Link to="/audit" search={{ source: "book" }} onClick={() => setOpen(false)} className="rounded-md bg-primary px-4 py-2 text-center font-medium text-primary-foreground">
               Book Call
             </Link>
