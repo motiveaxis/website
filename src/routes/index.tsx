@@ -20,11 +20,8 @@ function Index() {
       <Services />
       <Process />
       <Ecosystem />
-      <Stack />
       <CaseStudies />
       <Pricing />
-      <Trust />
-      <About />
       <FinalCTA />
       <Footer />
     </div>
@@ -721,8 +718,8 @@ function Footer() {
             Building scalable operational systems through intelligent automation.
           </p>
         </div>
-        <FooterCol title="Company" links={[["About", "#"], ["Case studies", "#work"], ["Pricing", "#pricing"]]} />
-        <FooterCol title="Capabilities" links={[["Services", "#services"], ["Ecosystem", "#ecosystem"], ["Stack", "#stack"]]} />
+        <FooterCol title="Company" links={[["About", "/about"], ["Trust & privacy", "/trust"], ["Case studies", "#work"], ["Pricing", "#pricing"]]} />
+        <FooterCol title="Capabilities" links={[["Services", "#services"], ["Ecosystem", "#ecosystem"], ["Stack", "/stack"]]} />
         <FooterCol title="Contact" links={[["hello@motiveaxis.com", "mailto:hello@motiveaxis.com"], ["Book a call", "#contact"], ["LinkedIn", "#"]]} />
       </div>
       <div className="mx-auto max-w-7xl px-6 mt-12 pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
