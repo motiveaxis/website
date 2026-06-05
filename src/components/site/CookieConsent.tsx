@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { captureUtmParams } from "@/lib/tracking";
+import { captureUtmParams, setConsentRecord } from "@/lib/tracking";
 
 const STORAGE_KEY = "ma_cookie_consent";
 const GTM_ID = "GTM-KJNN4J4B";
@@ -80,7 +80,7 @@ export default function CookieConsent() {
   }, []);
 
   const decide = (choice: ConsentChoice) => {
-    localStorage.setItem(STORAGE_KEY, choice);
+    setConsentRecord(choice);
     applyConsent(choice);
     loadGtm();
     setVisible(false);
