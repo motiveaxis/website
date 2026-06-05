@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import Nav from "@/components/site/Nav";
 import CalInline from "@/components/site/CalInline";
+import { getTrackingData } from "@/lib/tracking";
 
 type Search = {
   source?: "audit" | "book";
@@ -59,6 +60,22 @@ function AuditPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const tracking = getTrackingData();
+    if (typeof window !== "undefined") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form_submit",
+        form_name: discussInCall ? "strategy_call" : "workflow_audit",
+        form_source: search.source ?? "audit",
+        name,
+        email,
+        company,
+        has_crm: hasCrm,
+        crms,
+        task: discussInCall ? "" : task,
+        ...tracking,
+      });
+    }
     if (discussInCall) {
       setCalLink("motiveaxis/strategy-call");
       setStage("schedule");
