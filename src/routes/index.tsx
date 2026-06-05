@@ -6,6 +6,7 @@ import Nav from "@/components/site/Nav";
 import WorkflowGraphic from "@/components/site/WorkflowGraphic";
 import { Reveal } from "@/components/site/Reveal";
 import logo from "@/assets/motive-axis-logo.png";
+import { getTrackingData, getConsentRecord } from "@/lib/tracking";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -644,6 +645,20 @@ function FinalCTA() {
             className="rounded-2xl border border-border bg-card/80 backdrop-blur p-6 md:p-8 space-y-4"
             onSubmit={(e) => {
               e.preventDefault();
+              const tracking = getTrackingData();
+              const consent = getConsentRecord();
+              if (typeof window !== "undefined") {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                  event: "form_submit",
+                  form_name: "contact_us",
+                  form_source: "home_final_cta",
+                  name,
+                  email,
+                  ...tracking,
+                  ...consent,
+                });
+              }
               navigate({
                 to: "/audit",
                 search: { source: "audit", name, email },
