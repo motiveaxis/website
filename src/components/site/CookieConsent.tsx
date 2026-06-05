@@ -13,13 +13,6 @@ declare global {
   }
 }
 
-function pushGtag(...args: any[]) {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(arguments);
-  // Use the same shape GTM expects
-  window.dataLayer.push(args);
-}
-
 function setupConsentDefaults() {
   window.dataLayer = window.dataLayer || [];
   function gtag(...args: any[]) {
