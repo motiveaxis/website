@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import Nav from "@/components/site/Nav";
 import CalInline from "@/components/site/CalInline";
-import { getTrackingData } from "@/lib/tracking";
+import { getTrackingData, getConsentRecord } from "@/lib/tracking";
 
 type Search = {
   source?: "audit" | "book";
@@ -61,6 +61,7 @@ function AuditPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const tracking = getTrackingData();
+    const consent = getConsentRecord();
     if (typeof window !== "undefined") {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -74,6 +75,7 @@ function AuditPage() {
         crms,
         task: discussInCall ? "" : task,
         ...tracking,
+        ...consent,
       });
     }
     if (discussInCall) {
