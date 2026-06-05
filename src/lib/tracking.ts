@@ -6,6 +6,11 @@ const KEYS = {
   fbclid: "ma_fbclid",
 } as const;
 
+const CONSENT_KEYS = {
+  choice: "ma_cookie_consent",
+  timestamp: "ma_cookie_consent_at",
+} as const;
+
 export function captureUtmParams() {
   if (typeof window === "undefined") return;
   try {
@@ -36,4 +41,28 @@ export function getTrackingData() {
     gclid: sessionStorage.getItem(KEYS.gclid) || "",
     fbclid: sessionStorage.getItem(KEYS.fbclid) || "",
   };
+}
+
+export type ConsentChoice = "granted" | "denied" | "pending";
+
+export function setConsentRecord(choice: "granted" | "denied") {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(CONSENT_KEYS.choice, choice);
+    localStorage.setItem(CONSENT_KEYS.timestamp, new Date().toISOString());
+  } catch {
+    /* localStorage unavailable */
+  }
+}
+
+export function getConsentRecord(): {
+  consent_choice: ConsentChoice;
+  consent_timestamp: string;
+} {
+  if (typeof window === "undefined") {
+    return { consent_choice: "pending", consent_timestamp: "" };
+  }
+  const choice = (localStorage.getItem(CONSENT_KEYS.choice) as ConsentChoice) || "pending";
+  const timestamp = localStorage.getItem(CONSENT_KEYS.timestamp) || "";
+  return { consent_choice: choice, consent_timestamp: timestamp };
 }
