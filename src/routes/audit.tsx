@@ -27,9 +27,12 @@ export const Route = createFileRoute("/audit")({
 
 const CRM_OPTIONS = ["Salesforce", "GoHighLevel (GHL)", "HubSpot", "Zoho", "Pipedrive", "Other"];
 
+const N8N_WEBHOOK_URL = "https://n8n.motiveaxis.com/webhook/lead-axis-trigger";
+
 function AuditPage() {
   const search = Route.useSearch();
   const [stage, setStage] = useState<"form" | "success" | "schedule">("form");
+  const [submitting, setSubmitting] = useState(false);
 
   const [name, setName] = useState(search.name ?? "");
   const [email, setEmail] = useState(search.email ?? "");
@@ -58,10 +61,14 @@ function AuditPage() {
   const toggleCrm = (c: string) =>
     setCrms((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+
     const tracking = getTrackingData();
     const consent = getConsentRecord();
+
+    // Push to GTM dataLayer
     if (typeof window !== "undefined") {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -78,6 +85,38 @@ function AuditPage() {
         ...consent,
       });
     }
+
+    // Send lead data to n8n pipeline (WF3 Lead-Axis)
+    const leadPayload = {
+      leadId: "",
+      email,
+      first_name: name.split(" ")[0] || name,
+      last_name: name.split(" ").slice(1).join(" ") || "",
+      company_name: company,
+      source: "website_audit",
+      notes: discussInCall ? "Lead wants to discuss on a call." : task,
+      tool_stack: { crm: crms, automation: [], project_management: [], communication: [], other: [] },
+      pain_points: discussInCall ? [] : [task],
+      goals: [],
+      quantified_data: {},
+      booking_status: discussInCall ? "booked" : "unbooked",
+      cta_source: search.source ?? "audit",
+      tracking: { ...tracking, ...consent },
+    };
+
+    try {
+      await fetch(N8N_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadPayload),
+        mode: "no-cors",
+      });
+    } catch (err) {
+      console.error("Failed to send lead to n8n:", err);
+    }
+
+    setSubmitting(false);
+
     if (discussInCall) {
       setCalLink("motiveaxis/strategy-call");
       setStage("schedule");
@@ -200,9 +239,10 @@ function AuditPage() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:brightness-110 transition red-glow"
+                  disabled={submitting}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:brightness-110 transition red-glow disabled:opacity-50"
                 >
-                  {discussInCall ? "Book the call" : "Audit my workflow"}
+                  {submitting ? "Sending…" : (discussInCall ? "Book the call" : "Audit my workflow")}
                   <span>→</span>
                 </button>
 
